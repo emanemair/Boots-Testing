@@ -6,7 +6,7 @@
       <class name="BootsTesting">
         <methods>
           <include name="MySetup"/>
-          <include name="ViewingProductDetailes"/>
+          <include name="Regisstration"/>
         </methods>
       </class> <!-- BootsTesting -->
     </classes>
