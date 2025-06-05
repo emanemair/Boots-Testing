@@ -1,13 +1,17 @@
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -17,6 +21,9 @@ public class BootsTesting {
 	WebDriver driver = new ChromeDriver();
 	String URL = "https://www.boots.com/"; 
 	Random rand = new Random(); 
+	String UserPssword = "emanemair@E12345";
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+
 	@BeforeTest 
 	public void MySetup() throws InterruptedException {
 		
@@ -26,7 +33,31 @@ public class BootsTesting {
 		driver.findElement(By.id("onetrust-accept-btn-handler")).click(); 
 	}
 	
-	@Test(priority= 1 , enabled = true) 
+	@Test(priority = 1 , enabled = false)
+	public void VerifyHomepageLoad() {
+		
+        // Verify Nav Bar is visible
+        WebElement navBar = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("topLevelMenu")));
+        Assert.assertTrue(navBar.isDisplayed(), "NavBar should be visible");
+
+        // Verify Page Banner(s) are present
+        List<WebElement> pageBanners = wait.until(
+            ExpectedConditions.presenceOfAllElementsLocatedBy(
+                By.cssSelector(".oct-grid__row.oct-grid__section.oct-grid__section--full-width.oct-grid__section--background-color")
+            )
+        );
+        Assert.assertFalse(pageBanners.isEmpty(), "Page banner(s) should be present");
+
+        // Verify Product List is present
+        List<WebElement> productList = wait.until(
+            ExpectedConditions.presenceOfAllElementsLocatedBy(
+                By.cssSelector(".oct-teaser.oct-teaser--theme-productTile.oct-teaser--theme-productTile--border-callout.oct-teaser--border")
+            )
+        );
+        Assert.assertFalse(productList.isEmpty(), "Product list should be present");
+	} 
+	
+	@Test(priority= 2 , enabled = true) 
 	public void Regisstration() throws InterruptedException {
 		WebElement RegistrationLink = driver.findElement(By.id("signInQuickLink")); 
 		RegistrationLink.click(); 
@@ -54,11 +85,31 @@ public class BootsTesting {
 		WebElement EmailInput =driver.findElement(By.xpath("//input[@data-display-name='Email address']")); 
 		EmailInput.sendKeys("emanimair2@gmail.com"); 
 		//Password 
+		WebElement passwordField = driver.findElement(By.id("gigya-password-142081691598547540"));
+		passwordField.sendKeys(UserPssword);
 		
-		List<WebElement> Passwords = driver.findElements(By.xpath("//input[@type='password']")); 
-		for (int i  = 0 ; i < Passwords.size() ;i++) {
-			Passwords.get(i).sendKeys("emanemair@1234"); 
-		}
+		WebElement ConfirmPass = driver.findElement(By.id("gigya-password-68140718006804320")); 
+		ConfirmPass.sendKeys(UserPssword);
+		
+		
+		// Scroll directly to the element
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		WebElement conditionTerms = driver.findElement(By.id("gigya-checkbox-43083977052586530"));
+
+		// Scroll directly to the element
+		js.executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", conditionTerms);
+	
+		
+		
+		Thread.sleep(2000);
+		
+		WebElement ConditionLabel = driver.findElement(By.cssSelector("label[for='gigya-checkbox-43083977052586530']"));
+		ConditionLabel.click();
+		
+	
+
+
+
 		
 	}
 	
