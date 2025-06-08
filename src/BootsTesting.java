@@ -83,7 +83,7 @@ public class BootsTesting {
 		
 		//Email 
 		WebElement EmailInput =driver.findElement(By.xpath("//input[@data-display-name='Email address']")); 
-		EmailInput.sendKeys("emanimair2@gmail.com"); 
+		EmailInput.sendKeys("emaireman51@gmail.com"); 
 		//Password 
 		WebElement passwordField = driver.findElement(By.id("gigya-password-142081691598547540"));
 		passwordField.sendKeys(UserPssword);
@@ -106,12 +106,23 @@ public class BootsTesting {
 		WebElement ConditionLabel = driver.findElement(By.cssSelector("label[for='gigya-checkbox-43083977052586530']"));
 		ConditionLabel.click();
 		
-	
+		//captcha and create account will be a manual autoamtion 
+		
+		driver.findElement(By.xpath("//input[@value='Create my account']")).click(); 
+		
+        WebElement SelectCountryDropDown = driver.findElement(By.className("gig-tfa-phone-register-select"));
 
-
+		Select SelectCountryList = new Select(SelectCountryDropDown); 
+		
+		SelectCountryList.selectByContainsVisibleText("Jordan"); 
+		
+		
 
 		
 	}
+	
+
+	
 	
 	@Test(priority = 2 , enabled = false) 
 	public void verifyProductListingPageLoad() throws InterruptedException {
