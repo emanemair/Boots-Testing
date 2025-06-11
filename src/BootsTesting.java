@@ -57,7 +57,7 @@ public class BootsTesting {
         Assert.assertFalse(productList.isEmpty(), "Product list should be present");
 	} 
 	
-	@Test(priority= 2 , enabled = true) 
+	@Test(priority= 2 , enabled = false) 
 	public void Regisstration() throws InterruptedException {
 		WebElement RegistrationLink = driver.findElement(By.id("signInQuickLink")); 
 		RegistrationLink.click(); 
@@ -125,7 +125,7 @@ public class BootsTesting {
 	
 	
 	@Test(priority = 2 , enabled = false) 
-	public void verifyProductListingPageLoad() throws InterruptedException {
+	public void ChooseRandomProductCategory() throws InterruptedException {
 		Thread.sleep(2000);
 
 		List <WebElement> ProductCategories = driver.findElements(By.cssSelector(".oct-teaser.oct-teaser--theme-productTile.oct-teaser--theme-productTile--border-callout.oct-teaser--border")); 
@@ -216,8 +216,49 @@ public class BootsTesting {
 
 	}
 	
+	@Test(priority = 5 , enabled = false)
+	public void CheckSearchProductFunctionality() throws InterruptedException{
+		
+		Boolean ExpectedResultOfSearchingProduct = true; 
+		String ProductName = "eye cream"; 
+		driver.findElement(By.id("AlgoliaSearchInput")).sendKeys(ProductName);
+		driver.findElement(By.id("algolia-search-button")).click();
+		Thread.sleep(2000);
+		Boolean ActualResult = driver.findElement(By.cssSelector(".oct-text.oct-text--standard.oct-text--size_m.oct-aem-text.oct-aem-text--h1--variant-1\r\n"
+				+ "")).getText().contains("results");
+		Assert.assertEquals(ActualResult, ExpectedResultOfSearchingProduct);
+	}
 	
+	@Test(priority = 6 , enabled = false)
+	public void FilterFunctionality()  {
+		
+		List<WebElement> ProductCategories = driver.findElements(By.className("oct-button__content")); 
+		System.out.println(ProductCategories.size());
+	}
 	
+	@Test(priority = 1 , enabled = true)
+	public void CheckAiAssistantFunctionality() throws InterruptedException {
+		
+		String ChatText = "I'm looking for a vegan and environmentally friendly skincare products "; 
+	
+		WebElement AI_AssistantButton = driver.findElement(By.className("ATChatOpen")); 
+		AI_AssistantButton.click(); 
+		WebElement ChatInput = driver.findElement(By.id("chatBoxTextEntry")); 
+		ChatInput.sendKeys(ChatText); 
+		driver.findElement(By.xpath("//*[@id=\"page\"]/div[8]/div[2]/div/div[2]/div/button")).click(); 
+		Thread.sleep(5000); 
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+		WebElement messageElement = wait.until(
+		    ExpectedConditions.visibilityOfElementLocated(
+		        By.cssSelector(".message.messageReceived.feedbackEnabled")
+		    )) ; 
+		String AI_Feedback = messageElement.getText(); 
+		boolean ActualResult = AI_Feedback.contains("vegan") && AI_Feedback.contains("environmentally friendly"); 
+		boolean ExpectedAI_result = true; 
+		Assert.assertEquals(ActualResult, ExpectedAI_result); 
+		
+	}
 
 	
 }
