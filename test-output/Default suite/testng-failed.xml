@@ -6,7 +6,7 @@
       <class name="BootsTesting">
         <methods>
           <include name="MySetup"/>
-          <include name="CheckAiAssistantFunctionality"/>
+          <include name="FilterFunctionality"/>
         </methods>
       </class> <!-- BootsTesting -->
     </classes>

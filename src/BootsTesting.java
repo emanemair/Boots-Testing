@@ -33,7 +33,7 @@ public class BootsTesting {
 		driver.findElement(By.id("onetrust-accept-btn-handler")).click(); 
 	}
 	
-	@Test(priority = 1 , enabled = false)
+	@Test(priority = 1 , enabled = true)
 	public void VerifyHomepageLoad() {
 		
         // Verify Nav Bar is visible
@@ -216,7 +216,7 @@ public class BootsTesting {
 
 	}
 	
-	@Test(priority = 5 , enabled = false)
+	@Test(priority = 5 , enabled = true)
 	public void CheckSearchProductFunctionality() throws InterruptedException{
 		
 		Boolean ExpectedResultOfSearchingProduct = true; 
@@ -229,14 +229,78 @@ public class BootsTesting {
 		Assert.assertEquals(ActualResult, ExpectedResultOfSearchingProduct);
 	}
 	
-	@Test(priority = 6 , enabled = false)
-	public void FilterFunctionality()  {
+	@Test(priority = 6 , enabled = true)
+	public void FilterFunctionality() throws InterruptedException  {
 		
-		List<WebElement> ProductCategories = driver.findElements(By.className("oct-button__content")); 
-		System.out.println(ProductCategories.size());
+		List<WebElement> ProductCategories = driver.findElements(By.cssSelector(".hierarchy-facet__child.facet__child.level-2")); 
+		int CategoriesNumber = ProductCategories.size(); 
+		int RandomCate = rand.nextInt(CategoriesNumber); 
+		WebElement SelectedProductCate = ProductCategories.get(RandomCate);
+		SelectedProductCate.findElement(By.tagName("button")).click();
+		String MainProductCateKeyWords = SelectedProductCate.findElement(By.tagName("button")).getDomAttribute("aria-label"); 
+		Thread.sleep(2000);
+		List<WebElement> ProductCate2 = ProductCategories.get(RandomCate).findElements(By.cssSelector(".hierarchy-facet__child.facet__child.level-3")); 
+		int SubCateNumber = ProductCate2.size(); 
+		int RandomSubCate = rand.nextInt(SubCateNumber); 
+		WebElement SelectedProductCate2 = ProductCate2.get(RandomSubCate);
+		SelectedProductCate2.findElement(By.tagName("button")).click(); 
+		String ProductCate_2_KeyWords = SelectedProductCate2.findElement(By.tagName("button")).getDomAttribute("aria-label");
+		String[] MainKeyWords = {MainProductCateKeyWords,ProductCate_2_KeyWords }; 
+		String currentURL  =driver.getCurrentUrl(); 
+		/*
+		 for (int i = 0; i < MainKeyWords.length; i++) {
+	            // Remove '&', trim spaces, and normalize multiple spaces to single space
+	            MainKeyWords[i] = MainKeyWords[i]
+	                    .replace("&", "")            // Remove "&"
+	                    .trim()                      // Remove leading/trailing spaces
+	                    .replaceAll("\\s+", " ").toLowerCase();    // Replace multiple spaces with one
+	        }
+		 */
+		 List<String> allKeywords = new ArrayList<>();
+
+	        for (String kw : MainKeyWords) {
+	            // Clean: remove &, trim, normalize spaces
+	            String cleaned = kw.replace("&", "")
+	            					.replace("'", "")
+	                               .trim()
+	                               .replaceAll("\\s+", " ")
+	                               .toLowerCase();
+
+	            // Split into words if there's more than one word
+	            String[] words = cleaned.split(" ");
+
+	            // Add all words to the list
+	            for (String word : words) {
+	                if (!word.isEmpty()) {
+	                    allKeywords.add(word);
+	                }
+	            }
+	        }
+
+	        // Print result to check
+	        System.out.println("Cleaned individual keywords:");
+	        for (String keyword : allKeywords) {
+	            System.out.println(keyword);
+	        }
+	        
+	        Thread.sleep(3000);
+	        boolean allFound = true;
+	        for (String keyword : allKeywords) {
+	            if (!currentURL.toLowerCase().contains(keyword)) {
+	                allFound = false;
+	                break;
+	            }
+	        }
+		 
+		
+		System.out.println(driver.getCurrentUrl().toLowerCase());  
+		
+		Boolean ExpectedFilteringResult = true; 
+		Boolean ActualFilteringResult = allFound; 
+		Assert.assertEquals(ActualFilteringResult, ExpectedFilteringResult);
 	}
 	
-	@Test(priority = 1 , enabled = true)
+	@Test(priority = 7  , enabled = false)
 	public void CheckAiAssistantFunctionality() throws InterruptedException {
 		
 		String ChatText = "I'm looking for a vegan and environmentally friendly skincare products "; 
