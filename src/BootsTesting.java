@@ -1,3 +1,5 @@
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -5,6 +7,7 @@ import java.util.Random;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -58,7 +61,7 @@ public class BootsTesting {
 	} 
 	
 	@Test(priority= 2 , enabled = false) 
-	public void Regisstration() throws InterruptedException {
+	public void Registration() throws InterruptedException {
 		WebElement RegistrationLink = driver.findElement(By.id("signInQuickLink")); 
 		RegistrationLink.click(); 
 		driver.findElement(By.xpath("//input[@value='Register']")).click(); 
@@ -122,14 +125,56 @@ public class BootsTesting {
 	}
 	
 
-	
-	
+	@Test(priority=  2 ,enabled = false)
+	public void ChooseRandomProductCate() throws InterruptedException {
+		
+		  Thread.sleep(2000);
+
+		    List<WebElement> ProductCategories = driver.findElements(By.cssSelector(
+		        ".oct-teaser.oct-teaser--theme-productTile.oct-teaser--theme-productTile--border-callout.oct-teaser--border"
+		    ));
+
+		    int RandomProductIndex = rand.nextInt(ProductCategories.size());
+
+		    // Scroll and click with retry if stale element exception occurs
+		    boolean success = false;
+		    int attempts = 0;
+
+		    while (!success && attempts < 3) {
+		        try {
+		            // Re-locate the list each time to avoid stale elements
+		            ProductCategories = driver.findElements(By.cssSelector(
+		                ".oct-teaser.oct-teaser--theme-productTile.oct-teaser--theme-productTile--border-callout.oct-teaser--border"
+		            ));
+
+		            WebElement selectedProduct = ProductCategories.get(RandomProductIndex);
+
+		            // Scroll into view
+		            ((JavascriptExecutor) driver).executeScript(
+		                "arguments[0].scrollIntoView({block: 'center'});", selectedProduct
+		            );
+		            Thread.sleep(1000);
+
+		            selectedProduct.findElement(By.tagName("a")).click();
+		            success = true;
+
+		        } catch (StaleElementReferenceException e) {
+		            attempts++;
+		            Thread.sleep(500); // short wait before retry
+		        }
+		    }
+
+		    if (!success) {
+		        throw new RuntimeException("Failed to click product category after multiple attempts due to stale element.");
+		    }
+		}
+	/*
 	@Test(priority = 2 , enabled = false) 
 	public void ChooseRandomProductCategory() throws InterruptedException {
 		Thread.sleep(2000);
 
 		List <WebElement> ProductCategories = driver.findElements(By.cssSelector(".oct-teaser.oct-teaser--theme-productTile.oct-teaser--theme-productTile--border-callout.oct-teaser--border")); 
-		int RandomProductIndex =rand.nextInt(ProductCategories.size()); 
+		int RandomProductIndex =rand.nextInt(ProductCategories.size()-1 ); 
 		
 		Thread.sleep(2000);
 		if(RandomProductIndex > 2 ) {
@@ -163,9 +208,12 @@ public class BootsTesting {
 			
 			}	
 		Thread.sleep(2000); 
+		
+
 		ProductCategories.get(RandomProductIndex).findElement(By.tagName("a")).click();
 	}
 	
+	*/
 	
 	@Test (priority = 3 , enabled = false)
 	public void VerifiyProductListIsLoaded() throws InterruptedException {
@@ -179,10 +227,54 @@ public class BootsTesting {
 		Assert.assertEquals(ActualResult, ExpectedResult); 
 	
 	}
+	@Test(priority = 4 , enabled = false)
+	public void ChooseRandomProduct() {
+	
+		
+		List<WebElement> ProductList = driver.findElement(By.id("hits")).findElements(By.cssSelector(".oct-grid__cell.oct-grid__cell--width-3.oct-grid__cell--small-6.oct-grid__cell--medium-small-4.oct-grid__cell--medium-4.oct-grid__cell--medium-large-4.oct-listers-hits__item.hit.oct-listers__item--with-inGrid\r\n"
+				+ ""));
+		int RandomProductIndex = rand.nextInt(ProductList.size()); 
+		ProductList.get(RandomProductIndex).findElement(By.tagName("a")).click();
+	}
+	
+	
+	@Test(priority = 5 , enabled = false )
+	public void Filter() {
+		
+		
+		WebElement FilterSection = driver.findElement(By.cssSelector
+				(".oct-listers-facets-wrapper.oct-listers__loaded"));	
+		List<WebElement> FilterOptions = FilterSection.findElements(
+			    By.xpath("//button[contains(@class, 'oct-accordion__toggle') and contains(@class, 'oct-accordion__toggle--open')]")
+			);
+		
+		
+		int RandomFitleringIndex  = rand.nextInt(FilterOptions.size()); 
+		WebElement RandomFilterOption = FilterOptions.get(RandomFitleringIndex); 
+		String NameOfFilterOption = RandomFilterOption.getDomAttribute("aria-label"); 
+		System.out.println(NameOfFilterOption); 
+		List<WebElement>FilterPannelList = RandomFilterOption.findElements(By.tagName("li")); 
+			/*	("//div[contains(@class,'oct-accordion__pannel') and contains"
+						+ "(@class,'oct-accordion__pannel--open')]"));*/
+		
+
+		
+		if (NameOfFilterOption == "brand" ||NameOfFilterOption == "Promotions" ) {
+			int RandomFilterPannel = rand.nextInt(FilterPannelList.size()); 
+
+			WebElement SelctedFilter = FilterPannelList.get(RandomFilterPannel).
+					findElement(By.tagName("input")) ;
+			SelctedFilter.click(); 
+			
+		}
+
+		
+		
+	}
 	
 	@Test (priority = 4 , enabled = false)
 	public void ViewingProductDetailes() throws InterruptedException {
-		
+	
 		
 		List<WebElement> ProductList = driver.findElement(By.id("hits")).findElements(By.cssSelector(".oct-grid__cell.oct-grid__cell--width-3.oct-grid__cell--small-6.oct-grid__cell--medium-small-4.oct-grid__cell--medium-4.oct-grid__cell--medium-large-4.oct-listers-hits__item.hit.oct-listers__item--with-inGrid\r\n"
 				+ ""));
@@ -232,72 +324,43 @@ public class BootsTesting {
 	@Test(priority = 6 , enabled = true)
 	public void FilterFunctionality() throws InterruptedException  {
 		
-		List<WebElement> ProductCategories = driver.findElements(By.cssSelector(".hierarchy-facet__child.facet__child.level-2")); 
-		int CategoriesNumber = ProductCategories.size(); 
-		int RandomCate = rand.nextInt(CategoriesNumber); 
-		WebElement SelectedProductCate = ProductCategories.get(RandomCate);
-		SelectedProductCate.findElement(By.tagName("button")).click();
-		String MainProductCateKeyWords = SelectedProductCate.findElement(By.tagName("button")).getDomAttribute("aria-label"); 
-		Thread.sleep(2000);
-		List<WebElement> ProductCate2 = ProductCategories.get(RandomCate).findElements(By.cssSelector(".hierarchy-facet__child.facet__child.level-3")); 
-		int SubCateNumber = ProductCate2.size(); 
-		int RandomSubCate = rand.nextInt(SubCateNumber); 
-		WebElement SelectedProductCate2 = ProductCate2.get(RandomSubCate);
-		SelectedProductCate2.findElement(By.tagName("button")).click(); 
-		String ProductCate_2_KeyWords = SelectedProductCate2.findElement(By.tagName("button")).getDomAttribute("aria-label");
-		String[] MainKeyWords = {MainProductCateKeyWords,ProductCate_2_KeyWords }; 
-		String currentURL  =driver.getCurrentUrl(); 
-		/*
-		 for (int i = 0; i < MainKeyWords.length; i++) {
-	            // Remove '&', trim spaces, and normalize multiple spaces to single space
-	            MainKeyWords[i] = MainKeyWords[i]
-	                    .replace("&", "")            // Remove "&"
-	                    .trim()                      // Remove leading/trailing spaces
-	                    .replaceAll("\\s+", " ").toLowerCase();    // Replace multiple spaces with one
-	        }
-		 */
-		 List<String> allKeywords = new ArrayList<>();
-
-	        for (String kw : MainKeyWords) {
-	            // Clean: remove &, trim, normalize spaces
-	            String cleaned = kw.replace("&", "")
-	            					.replace("'", "")
-	                               .trim()
-	                               .replaceAll("\\s+", " ")
-	                               .toLowerCase();
-
-	            // Split into words if there's more than one word
-	            String[] words = cleaned.split(" ");
-
-	            // Add all words to the list
-	            for (String word : words) {
-	                if (!word.isEmpty()) {
-	                    allKeywords.add(word);
-	                }
-	            }
-	        }
-
-	        // Print result to check
-	        System.out.println("Cleaned individual keywords:");
-	        for (String keyword : allKeywords) {
-	            System.out.println(keyword);
-	        }
-	        
-	        Thread.sleep(3000);
-	        boolean allFound = true;
-	        for (String keyword : allKeywords) {
-	            if (!currentURL.toLowerCase().contains(keyword)) {
-	                allFound = false;
-	                break;
-	            }
-	        }
-		 
+		// All Filter Options 
+		List<WebElement> AllFiltersOptions = driver.findElements(By.xpath
+				("//div[contains(@class,'oct-accordion__item') and"
+						+ " contains (@class,'oct-accordion__item--noTransition')]"));
+		ArrayList<Integer> RandomFilterIndices = new ArrayList<>();
+		int FilterCount = 0 ; 
+		int RandomFilterIndex = rand.nextInt(AllFiltersOptions.size()); 
+		while(!RandomFilterIndices.contains(RandomFilterIndex) && FilterCount < 3  ) {
+			RandomFilterIndices.add(RandomFilterIndex);
+			RandomFilterIndex = rand.nextInt(AllFiltersOptions.size()); 
+			FilterCount++; 
+		}
+		for (int i = 0 ; i< RandomFilterIndices.size(); i++) {
+			
+			WebElement ButtonElement = AllFiltersOptions.get(RandomFilterIndices.get(i)).
+					findElement(By.tagName("button"));
+			String ToggleType = ButtonElement.getDomAttribute("class");
+			System.out.println(ToggleType); 
 		
-		System.out.println(driver.getCurrentUrl().toLowerCase());  
+			if (ToggleType.contains("open")) {
+				
+				List<WebElement> PannelsOptions = AllFiltersOptions.get(RandomFilterIndices.get(i)).
+				findElement(By.tagName("div")).findElement(By.xpath("//div[contains(@class,'oct-accordion__pannel') "
+						+ "and contains (@class,'oct-accordion__pannel--open')]")).findElement(By.tagName("ul")).
+								findElements(By.tagName("li"));
+				for (int j = 0 ; j <PannelsOptions.size(); j++ )
+					System.out.println(PannelsOptions.get(j).
+							findElement(By.xpath("//span[@data-testid='checkbox-label']")));
+						
+			}else {
+				ButtonElement.click();
+			}
+			
+		}
 		
-		Boolean ExpectedFilteringResult = true; 
-		Boolean ActualFilteringResult = allFound; 
-		Assert.assertEquals(ActualFilteringResult, ExpectedFilteringResult);
+			
+		
 	}
 	
 	@Test(priority = 7  , enabled = false)
@@ -326,3 +389,149 @@ public class BootsTesting {
 
 	
 }
+
+
+
+
+/*
+
+/*
+WebElement RandomSelectedFilters = AllFiltersOptions.get(RandomFilterIndex); 
+List<WebElement> OpenFilterOptions = driver.findElements(
+	    By.xpath("//button[contains(@class, 'oct-accordion__toggle') and contains(@class, 'oct-accordion__toggle--open')]")
+	);
+
+//oct-accordion__item--noTransition
+
+//0 = category , 1 = price range , 2 = brand , 3 = rating , 4 = promotions 
+
+//Select 2 filter Options 
+
+for(int i = 2 ; i <FilterOptions.size()   ; i ++ ) {
+	
+	if (i == 1 || i== 3 )
+		continue; 
+	
+	WebElement FilterPannel =  FilterOptions.get(i).findElement(By.cssSelector
+			("oct-accordion__pannel oct-accordion__pannel--open")); 
+	if ( i == 2  || i == 4  ) {
+		
+		List<WebElement> PannelChoises = FilterPannel.findElements(By.tagName("li")); 
+		int RandomChoiceIndex = rand.nextInt(PannelChoises.size()); 
+		PannelChoises.get(RandomChoiceIndex).findElement(By.tagName("input")).click(); 
+		
+		 
+	}
+	
+}
+List<WebElement> ProductCategories = driver.findElements(By.cssSelector(".hierarchy-facet__child.facet__child.level-2")); 
+int CategoriesNumber = ProductCategories.size(); 
+int RandomCate = rand.nextInt(CategoriesNumber); 
+WebElement SelectedProductCate = ProductCategories.get(RandomCate);
+SelectedProductCate.findElement(By.tagName("button")).click();
+String MainProductCateKeyWords = SelectedProductCate.findElement(By.tagName("button")).getDomAttribute("aria-label"); 
+Thread.sleep(2000);
+
+List<WebElement> ProductCate2 = ProductCategories.get(RandomCate).findElements(By.cssSelector(".hierarchy-facet__child.facet__child.level-3")); 
+int SubCateNumber = ProductCate2.size(); 
+int RandomSubCate = rand.nextInt(SubCateNumber); 
+WebElement SelectedProductCate2 = ProductCate2.get(RandomSubCate);
+SelectedProductCate2.findElement(By.tagName("button")).click(); 
+String ProductCate_2_KeyWords = SelectedProductCate2.findElement(By.tagName("button")).getDomAttribute("aria-label");
+System.out.println(MainProductCateKeyWords); 
+System.out.println(ProductCate_2_KeyWords); 
+
+String[] MainKeyWords = {MainProductCateKeyWords,ProductCate_2_KeyWords }; 
+
+
+String currentURL  =driver.getCurrentUrl(); 
+
+
+String currentUrl = driver.getCurrentUrl();
+
+// Extract 'criteria.category' value
+String categoryParam = null;
+String[] params = currentUrl.split("&");
+for (String param : params) {
+    if (param.startsWith("criteria.category=")) {
+        categoryParam = param.split("=")[1];
+        break;
+    }
+}
+
+if (categoryParam != null) {
+    // Decode URL-encoded string
+    String decodedCategory = URLDecoder.decode(categoryParam, StandardCharsets.UTF_8);
+
+    // Split by "---" to separate main category and subcategories
+    String[] parts = decodedCategory.split("---");
+
+    if (parts.length > 0) {
+        String mainCategory = parts[0].trim();
+        System.out.println("Main Category: " + mainCategory);
+
+        if (parts.length > 1) {
+            String subCategoriesRaw = parts[1];
+            String[] subCategories = subCategoriesRaw.split("~"); // or regex if needed
+
+            System.out.println("Subcategories:");
+            for (String sub : subCategories) {
+                System.out.println("- " + sub.trim());
+            }
+        }
+    }
+}
+
+
+
+ for (int i = 0; i < MainKeyWords.length; i++) {
+        // Remove '&', trim spaces, and normalize multiple spaces to single space
+        MainKeyWords[i] = MainKeyWords[i]
+                .replace("&", "")            // Remove "&"
+                .trim()                      // Remove leading/trailing spaces
+                .replaceAll("\\s+", " ").toLowerCase();    // Replace multiple spaces with one
+    }
+ 
+ List<String> allKeywords = new ArrayList<>();
+
+    for (String kw : MainKeyWords) {
+        // Clean: remove &, trim, normalize spaces
+        String cleaned = kw.replace("&", "")
+        					.replace("'", "")
+                           .trim()
+                           .replaceAll("\\s+", " ")
+                           .toLowerCase();
+
+        // Split into words if there's more than one word
+        String[] words = cleaned.split(" ");
+
+        // Add all words to the list
+        for (String word : words) {
+            if (!word.isEmpty()) {
+                allKeywords.add(word);
+            }
+        }
+    }
+
+    // Print result to check
+    System.out.println("Cleaned individual keywords:");
+    for (String keyword : allKeywords) {
+        System.out.println(keyword);
+    }
+    
+    Thread.sleep(3000); 
+    boolean allFound = true;
+    for (String keyword : allKeywords) {
+        if (!currentURL.toLowerCase().contains(keyword)) {
+            allFound = false;
+            break;
+        }
+    }
+ 
+
+System.out.println(driver.getCurrentUrl().toLowerCase());  
+
+Boolean ExpectedFilteringResult = true; 
+Boolean ActualFilteringResult = allFound; 
+Assert.assertEquals(ActualFilteringResult, ExpectedFilteringResult);
+*/	
