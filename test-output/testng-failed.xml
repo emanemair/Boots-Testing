@@ -6,9 +6,7 @@
       <class name="BootsTesting">
         <methods>
           <include name="MySetup"/>
-          <include name="VerifyHomepageLoad"/>
-          <include name="CheckSearchProductFunctionality"/>
-          <include name="FilterFunctionality"/>
+          <include name="DicsountCode"/>
         </methods>
       </class> <!-- BootsTesting -->
     </classes>
