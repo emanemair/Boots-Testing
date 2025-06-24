@@ -7,6 +7,8 @@
         <methods>
           <include name="MySetup"/>
           <include name="DicsountCode"/>
+          <include name="CheckSearchProductFunctionality"/>
+          <include name="AddItemToTheCart"/>
         </methods>
       </class> <!-- BootsTesting -->
     </classes>

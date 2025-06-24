@@ -22,7 +22,7 @@ import org.testng.annotations.Test;
 
 public class BootsTesting {
 
-	String DiscountCode = "SUN20"; 
+	String DiscountCode = "SAVE20"; 
 	
 	double PPrice ; 
 	WebDriver driver = new ChromeDriver();
@@ -36,6 +36,7 @@ public class BootsTesting {
 		
 		driver.get(URL);
 		driver.manage().window().maximize();
+		
 		Thread.sleep(2000);
 		driver.findElement(By.id("onetrust-accept-btn-handler")).click(); 
 	}
@@ -173,11 +174,14 @@ public class BootsTesting {
 
 		
 		    List<WebElement> ProductCategories = driver.findElements(By.cssSelector(
-		        ".oct-teaser.oct-teaser--theme-productTile.oct-teaser--theme-productTile--border-callout.oct-teaser--border"
+		        ".swiper-slide.oct-carousel-teaser-swiper-slide.swiper-slide-next"
 		    ));
+		    
+		    
+		    int RandomProductIndex = 0 ; 
 //oct-teaser oct-teaser--theme-productTile oct-teaser--theme-productTile--border-callout oct-teaser--border
 		  //  int RandomProductIndex = rand.nextInt(2,ProductCategories.size()); 
-		    int RandomProductIndex = 3;
+		
 		    //rand.nextInt(1, ProductCategories.size()-1);
 		    System.out.println(RandomProductIndex);
 
@@ -185,7 +189,7 @@ public class BootsTesting {
 		    // Scroll and click with retry if stale element exception occurs
 		    boolean success = false;
 		    int attempts = 0;
-		    String ProductDesc= "summer beauty"; 
+		    String ProductDesc= "beauty"; 
 
 		    while (!success && attempts < 3) {
 		        try {
@@ -216,7 +220,7 @@ public class BootsTesting {
 		    boolean Expected_Result= true; 
 		    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		    WebElement navItem = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(
-		            By.className("oct-breadcrumb__item"))).get(1);
+		            By.className("oct-breadcrumb__item"))).get(2);
 		    String Nav2 = navItem.getText().toLowerCase();
 		    boolean Actual_Result = Nav2.contains(ProductDesc.toLowerCase()); 
 		    Assert.assertEquals(Actual_Result, Expected_Result);
@@ -394,9 +398,10 @@ public class BootsTesting {
 		Thread.sleep(3000);
 		
 		// Retrieve product names from basket
-		
-		List<WebElement> ProductName = driver.findElements(By.cssSelector(
-		    ".oct-link.oct-link--theme-text.oct-color--boots-blue.oct-product-details__name.oct-product-details__name__withImage"
+
+		// Wait for the presence of all elements
+		List<WebElement> ProductName = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+		    By.cssSelector(".oct-link.oct-link--theme-text.oct-color--boots-blue.oct-product-details__name.oct-product-details__name__withImage")
 		));
 		
 		List<String> ProductNames = new ArrayList<>();
