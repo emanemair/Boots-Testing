@@ -42,7 +42,7 @@ public class BootsTesting {
 	}
 	
 	@Test(priority = 1 , enabled = true)
-	public void VerifyHomepageLoad() {
+	public void Test001_VerifyHomepageLoad() {
 		
         // Verify Nav Bar is visible
         WebElement navBar = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("topLevelMenu")));
@@ -65,17 +65,14 @@ public class BootsTesting {
         
      
         Assert.assertFalse(productList.isEmpty(), "Product list should be present");
-        
-        
-        // Verify page footer is present 
-        
+                
         
 	} 
 	
 
 
 	@Test(priority = 2  , enabled = true)
-	public void CheckAiAssistantFunctionality() throws InterruptedException {
+	public void Test002_CheckAiAssistantFunctionality() throws InterruptedException {
 		
 		String ChatText = "What is the average delivery time?"; 
 	
@@ -100,7 +97,7 @@ public class BootsTesting {
 	}
 	
 	@Test(priority= 2 , enabled = false) 
-	public void Registration() throws InterruptedException {
+	public void Test002_Registration() throws InterruptedException {
 		WebElement RegistrationLink = driver.findElement(By.id("signInQuickLink")); 
 		RegistrationLink.click(); 
 		driver.findElement(By.xpath("//input[@value='Register']")).click(); 
@@ -166,7 +163,7 @@ public class BootsTesting {
 	
 
 	@Test(priority=  3,enabled = true)
-	public void ChooseProductCate() throws InterruptedException {
+	public void Test003_ChooseProductCate() throws InterruptedException {
 
 			driver.findElement(By.className("dismiss")).click(); 
 			Thread.sleep(1000);
@@ -217,31 +214,31 @@ public class BootsTesting {
 		    if (!success) {
 		        throw new RuntimeException("Failed to click product category after multiple attempts due to stale element.");
 		    }
-		    boolean Expected_Result= true; 
+		    boolean Test003_Expected_Result= true; 
 		    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		    WebElement navItem = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(
 		            By.className("oct-breadcrumb__item"))).get(2);
 		    String Nav2 = navItem.getText().toLowerCase();
 		    boolean Actual_Result = Nav2.contains(ProductDesc.toLowerCase()); 
-		    Assert.assertEquals(Actual_Result, Expected_Result);
+		    Assert.assertEquals(Actual_Result, Test003_Expected_Result);
 		}
 	
 	
 	@Test (priority = 4 , enabled = true)
-	public void VerifiyProductListIsLoaded() throws InterruptedException {
+	public void Test004_VerifiyProductListIsLoaded() throws InterruptedException {
 		
 		Thread.sleep(2000); 
 		
 		String ProductShowenText =driver.findElement(By.cssSelector(".oct-listers__pagination.oct-listers__pagination-top.oct-listers__pagination-top__no-chanel")).getText(); 
-		Boolean ExpectedResult = true; 
+		Boolean Test004_ExpectedResult = true; 
 		Boolean ActualResult = ProductShowenText.contains("Showing");  
 		
-		Assert.assertEquals(ActualResult, ExpectedResult); 
+		Assert.assertEquals(ActualResult, Test004_ExpectedResult); 
 	
 	}
 	
 	@Test(priority = 5 , enabled = true)
-	public void FilterFunctionality() throws InterruptedException  {
+	public void Test005_FilterFunctionality() throws InterruptedException  {
 		
 		
 		driver.findElement(By.cssSelector(".oct-toggle__slider.oct-toggle__slider--unselected")).click();
@@ -281,14 +278,14 @@ public class BootsTesting {
 
 		String InStockFilter = "inStock=true".toLowerCase();
 		String BrandFilter = ("brand="+brandName).toLowerCase(); 
-		boolean ExpectResult_test4 = true;
+		boolean Test005_ExpectResult_test = true;
 		Thread.sleep(2000); 
 		String CurrentUrl = driver.getCurrentUrl().toLowerCase();
 		boolean ActualResult_test4 = CurrentUrl.contains(InStockFilter) && CurrentUrl.contains(BrandFilter);
 		System.out.println(CurrentUrl); 
 		System.out.println(BrandFilter + "   " + InStockFilter ) ; 
 		
-		Assert.assertEquals(ActualResult_test4, ExpectResult_test4);
+		Assert.assertEquals(ActualResult_test4, Test005_ExpectResult_test);
 
 		
 
@@ -296,7 +293,7 @@ public class BootsTesting {
 		} 	
 	
 	@Test(priority =  6, enabled = true)
-	public void ChooseRandomProduct() throws InterruptedException {
+	public void Test006_ChooseRandomProduct() throws InterruptedException {
 		Thread.sleep(2000);
 /*
 		List<WebElement> ProductLinks = driver.findElements(
@@ -310,16 +307,15 @@ public class BootsTesting {
 		 driver.findElement(By.linkText("Clinique All About Eyes™ Eye Cream 15ml")).click();
 		Thread.sleep(1000);	
 		String SelectedPName = driver.findElement(By.id("estore_pdp_trcol")).findElement(By.tagName("h1")).getText();
-		boolean ExpectedResultTest_5 = true; 
-		boolean ActualResultTest_5 = ProductName.trim().equalsIgnoreCase(SelectedPName.trim());
-		System.out.println(ProductName + "    "  + SelectedPName + "  " + ActualResultTest_5 ); 
-		Assert.assertEquals(ActualResultTest_5, ExpectedResultTest_5);
+		boolean Tets006_ExpectedResultTest= true; 
+		boolean ActualResultTest = ProductName.trim().equalsIgnoreCase(SelectedPName.trim());
+		Assert.assertEquals(ActualResultTest, Tets006_ExpectedResultTest);
 	}
 	
 
 	
 	@Test (priority = 7 , enabled = true)
-	public void ViewingProductDetailes() throws InterruptedException {
+	public void Test007_ViewingProductDetailes() throws InterruptedException {
 
 		Thread.sleep(2000); 
 		WebElement ProductDetailes = driver.findElement(By.id("estore_pdp_trcol")); 
@@ -343,18 +339,18 @@ public class BootsTesting {
         		DispalyingCount = DispalyingCount + 1 ; 
         }
         
-       Boolean ExpectedResult = true; 
+       Boolean Test007_ExpectedResult = true; 
        Boolean ActualResult = false; 
        if (DispalyingCount == 4) {
     	   ActualResult = true; 
        }
 		
-       Assert.assertEquals(ActualResult, ExpectedResult); 
+       Assert.assertEquals(ActualResult, Test007_ExpectedResult); 
 
 	}
 	
 	@Test(priority = 8 , enabled = true)
-	public void AddItemToTheCart () throws InterruptedException {
+	public void Test008_AddItemToTheCart () throws InterruptedException {
 		Thread.sleep(1000);
 
 		String ProductCNameToBeAdded = driver.findElement(By.id("estore_pdp_trcol"))
@@ -413,34 +409,35 @@ public class BootsTesting {
 		System.out.println("Product Name to be Added: " + ProductCNameToBeAdded);
 
 		// Validation
-		boolean ExpectedBasketResult = true;
+		boolean Test008_ExpectedBasketResult = true;
 		boolean ActualBasketResult = ProductNames.contains(ProductCNameToBeAdded);
 
-		Assert.assertEquals(ActualBasketResult, ExpectedBasketResult);
+		Assert.assertEquals(ActualBasketResult, Test008_ExpectedBasketResult);
 	}
 	
 
 	
 	@Test(priority = 11, enabled = true)
-	public void CheckSearchProductFunctionality() throws InterruptedException{
+	public void Test011_CheckSearchProductFunctionality() throws InterruptedException{
 		
 		
 		Thread.sleep(2000); 
 		
 		driver.findElement(By.cssSelector(".oct-iconButton.oct-basket-header__close-btn")).click();
-		Boolean ExpectedResultOfSearchingProduct = true; 
+		Boolean Test011_ExpectedResul = true; 
 		String ProductName = "eye cream"; 
 		driver.findElement(By.id("AlgoliaSearchInput")).sendKeys(ProductName);
 		driver.findElement(By.id("algolia-search-button")).click();
 		Thread.sleep(2000);
 		Boolean ActualResult = driver.findElement(By.cssSelector(".oct-text.oct-text--standard.oct-text--size_m.oct-aem-text.oct-aem-text--h1--variant-1\r\n"
 				+ "")).getText().contains("results");
-		Assert.assertEquals(ActualResult, ExpectedResultOfSearchingProduct);
+		Assert.assertEquals(ActualResult, Test011_ExpectedResul);
 		
 	}
 	
+	
 	@Test(priority = 10 ,enabled = true)
-	public void DicsountCode() throws InterruptedException {
+	public void Test010_DicsountCode() throws InterruptedException {
 	
 		driver.findElement(By.id("offerCode")).sendKeys(DiscountCode);
 		driver.findElement(By.xpath("//button[@aria-label='Apply Offer Code']")).click(); 
@@ -451,10 +448,11 @@ public class BootsTesting {
 		WebElement alertElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("form p")));
 		String MessageAlert = alertElement.getText();
 		
-		boolean ExpectedResult = true; 
+		boolean Test010_ExpectedResult = true; 
+		
 		boolean ActualResult =  MessageAlert.contains("successfully applied"); 
 
-		Assert.assertEquals(ActualResult, ExpectedResult); 
+		Assert.assertEquals(ActualResult, Test010_ExpectedResult); 
 	 
 	}
 	
