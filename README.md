@@ -55,41 +55,35 @@ Alternatively, using the terminal:
 java org.testng.TestNG testng.xml
 
 
+## ✅ Test Cases
 
-✅ Test Cases
-Test Method	Description
-Test001_VerifyHomepageLoad	Validates homepage loads with essential sections visible
-Test002_CheckAiAssistantFunctionality	Sends a question to the AI chatbot and verifies response
-Test002_Registration (disabled)	Simulates account registration
-Test003_ChooseProductCate	Randomly selects and verifies a product category
-Test004_VerifiyProductListIsLoaded	Ensures products are listed on category pages
-Test005_FilterFunctionality	Tests brand filtering and in-stock status
-Test006_ChooseRandomProduct	Clicks a product and checks the detail page
-Test007_ViewingProductDetailes	Verifies product name, price, reviews, and code
-Test008_AddItemToTheCart	Adds a product to the basket and verifies it's added
-Test010_DicsountCode	Applies a promo code and checks the success message
-Test011_CheckSearchProductFunctionality	Verifies the search bar shows valid results
+| Test Method                         | Description                                                                 |
+|------------------------------------|-----------------------------------------------------------------------------|
+| `Test001_VerifyHomepageLoad`       | Validates homepage loads with nav bar, banners, and product list visible   |
+| `Test002_CheckAiAssistantFunctionality` | Sends a question to the chatbot and verifies the response includes keywords |
+| `Test002_Registration` *(disabled)*| Simulates user registration flow (requires manual OTP verification)         |
+| `Test003_ChooseProductCate`        | Selects a random product category and checks that it loads properly         |
+| `Test004_VerifiyProductListIsLoaded` | Confirms that product list is shown correctly after selecting a category    |
+| `Test005_FilterFunctionality`      | Applies brand and stock filters and checks that URL reflects the filters    |
+| `Test006_ChooseRandomProduct`      | Selects a product and verifies the product detail page matches the link     |
+| `Test007_ViewingProductDetailes`   | Validates product name, price, code, and review section are displayed       |
+| `Test008_AddItemToTheCart`         | Adds a product to the cart and verifies it appears in the basket            |
+| `Test010_DicsountCode`             | Applies a discount code and validates the success message                   |
+| `Test011_CheckSearchProductFunctionality` | Performs a product search and confirms results are shown                    |
 
-❗ Notes
-The Test002_Registration method requires manual interaction (e.g., CAPTCHA and OTP).
 
-Thread.sleep() is used for simplicity but should be replaced by WebDriverWait in production-ready tests.
 
-ChromeDriver must be compatible with your Chrome browser version.
+## ❗ Notes
 
-👩‍💻 Author
-Eman Emair
-📧 e.manimair2@gmail.com
-📱 +962 799646707
-🔗 LinkedIn Profile
+- The `Test002_Registration` method is **disabled** by default due to **OTP limitations**.
+- Jordan’s country code is selectable, but **no SMS was received**, which blocks full registration.
+- Discount code testing can be **inconclusive** without backend access — the UI may show failure if the code is expired or already used.
+- `Thread.sleep()` is used in some places for simplicity but should ideally be replaced with `WebDriverWait`.
 
-📄 License
-This project is for educational and demonstration purposes only.
+## 👩‍💻 Author
 
-yaml
-Copy
-Edit
+**Eman Emair**  
+📧 emanimair2@gmail.com
+📱 +962 799646707  
+🔗 [LinkedIn](https://www.linkedin.com/in/eman-emair-%D8%A7%D9%8A%D9%85%D8%A7%D9%86-%D8%B9%D9%85%D9%8A%D8%B1/)
 
----
-
-Let me know if you’d like me to create this as a downloadable file or if you'd like to add badges (e.g., T
