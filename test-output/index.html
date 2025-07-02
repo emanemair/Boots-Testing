@@ -26,7 +26,7 @@
       <span class="top-banner-title-font">Test results</span>
       <button id="button" class="button">Switch Retro Theme</button> <!-- button -->
       <br/>
-      <span class="top-banner-font-1">1 suite, 1 failed test</span>
+      <span class="top-banner-font-1">1 suite</span>
     </div> <!-- top-banner-root -->
     <div class="navigator-root">
       <div class="navigator-suite-header">
@@ -40,7 +40,7 @@
         <div class="rounded-window">
           <div class="suite-header light-rounded-window-top">
             <a href="#" panel-name="suite-Default_suite" class="navigator-link">
-              <span class="suite-name border-failed">Default suite</span>
+              <span class="suite-name border-passed">Default suite</span>
             </a> <!-- navigator-link -->
           </div> <!-- suite-header light-rounded-window-top -->
           <div class="navigator-suite-content">
@@ -51,7 +51,7 @@
               <ul>
                 <li>
                   <a href="#" panel-name="test-xml-Default_suite" class="navigator-link ">
-                    <span>C:\Users\User\AppData\Local\Temp\testng-eclipse-645725115\testng-customsuite.xml</span>
+                    <span>C:\Users\User\AppData\Local\Temp\testng-eclipse--121234018\testng-customsuite.xml</span>
                   </a> <!-- navigator-link  -->
                 </li>
                 <li>
@@ -93,21 +93,7 @@
               <div class="suite-section-content">
                 <ul>
                   <li>
-                    <span class="method-stats">10 methods, 1 failed,   9 passed</span>
-                  </li>
-                  <li>
-                    <span class="method-list-title failed">Failed methods</span>
-                    <span class="show-or-hide-methods failed">
-                      <a href="#" panel-name="suite-Default_suite" class="hide-methods failed suite-Default_suite"> (hide)</a> <!-- hide-methods failed suite-Default_suite -->
-                      <a href="#" panel-name="suite-Default_suite" class="show-methods failed suite-Default_suite"> (show)</a> <!-- show-methods failed suite-Default_suite -->
-                    </span>
-                    <div class="method-list-content failed suite-Default_suite">
-                      <span>
-                        <img src="failed.png" width="3%"/>
-                        <a href="#" panel-name="suite-Default_suite" title="BootsTesting" class="method navigator-link" hash-for-method="Test010_DicsountCode">Test010_DicsountCode</a> <!-- method navigator-link -->
-                      </span>
-                      <br/>
-                    </div> <!-- method-list-content failed suite-Default_suite -->
+                    <span class="method-stats">10 methods,   10 passed</span>
                   </li>
                   <li>
                     <span class="method-list-title passed">Passed methods</span>
@@ -158,6 +144,11 @@
                       <br/>
                       <span>
                         <img src="passed.png" width="3%"/>
+                        <a href="#" panel-name="suite-Default_suite" title="BootsTesting" class="method navigator-link" hash-for-method="Test010_DicsountCode">Test010_DicsountCode</a> <!-- method navigator-link -->
+                      </span>
+                      <br/>
+                      <span>
+                        <img src="passed.png" width="3%"/>
                         <a href="#" panel-name="suite-Default_suite" title="BootsTesting" class="method navigator-link" hash-for-method="Test011_CheckSearchProductFunctionality">Test011_CheckSearchProductFunctionality</a> <!-- method navigator-link -->
                       </span>
                       <br/>
@@ -173,57 +164,6 @@
     <div class="wrapper">
       <div class="main-panel-root">
         <div panel-name="suite-Default_suite" class="panel Default_suite">
-          <div class="suite-Default_suite-class-failed">
-            <div class="main-panel-header rounded-window-top">
-              <img src="failed.png"/>
-              <span class="class-name">BootsTesting</span>
-            </div> <!-- main-panel-header rounded-window-top -->
-            <div class="main-panel-content rounded-window-bottom">
-              <div class="method">
-                <div class="method-content">
-                  <a name="Test010_DicsountCode">
-                  </a> <!-- Test010_DicsountCode -->
-                  <span class="method-name">Test010_DicsountCode</span>
-                  <div class="stack-trace">java.lang.AssertionError: expected [true] but found [false]
-	at org.testng.Assert.fail(Assert.java:99)
-	at org.testng.Assert.failNotEquals(Assert.java:1037)
-	at org.testng.Assert.assertEqualsImpl(Assert.java:140)
-	at org.testng.Assert.assertEquals(Assert.java:122)
-	at org.testng.Assert.assertEquals(Assert.java:819)
-	at org.testng.Assert.assertEquals(Assert.java:829)
-	at BootsTesting.Test010_DicsountCode(BootsTesting.java:455)
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:133)
-	at org.testng.internal.TestInvoker.invokeMethod(TestInvoker.java:598)
-	at org.testng.internal.TestInvoker.invokeTestMethod(TestInvoker.java:173)
-	at org.testng.internal.MethodRunner.runInSequence(MethodRunner.java:46)
-	at org.testng.internal.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:824)
-	at org.testng.internal.TestInvoker.invokeTestMethods(TestInvoker.java:146)
-	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:146)
-	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:128)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-	at org.testng.TestRunner.privateRun(TestRunner.java:794)
-	at org.testng.TestRunner.run(TestRunner.java:596)
-	at org.testng.SuiteRunner.runTest(SuiteRunner.java:377)
-	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:371)
-	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:332)
-	at org.testng.SuiteRunner.run(SuiteRunner.java:276)
-	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:53)
-	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:96)
-	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1212)
-	at org.testng.TestNG.runSuitesLocally(TestNG.java:1134)
-	at org.testng.TestNG.runSuites(TestNG.java:1063)
-	at org.testng.TestNG.run(TestNG.java:1031)
-	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
-	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:293)
-	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:91)
-
-</div> <!-- stack-trace -->
-                </div> <!-- method-content -->
-              </div> <!-- method -->
-            </div> <!-- main-panel-content rounded-window-bottom -->
-          </div> <!-- suite-Default_suite-class-failed -->
           <div class="suite-Default_suite-class-passed">
             <div class="main-panel-header rounded-window-top">
               <img src="passed.png"/>
@@ -288,6 +228,13 @@
               </div> <!-- method -->
               <div class="method">
                 <div class="method-content">
+                  <a name="Test010_DicsountCode">
+                  </a> <!-- Test010_DicsountCode -->
+                  <span class="method-name">Test010_DicsountCode</span>
+                </div> <!-- method-content -->
+              </div> <!-- method -->
+              <div class="method">
+                <div class="method-content">
                   <a name="Test011_CheckSearchProductFunctionality">
                   </a> <!-- Test011_CheckSearchProductFunctionality -->
                   <span class="method-name">Test011_CheckSearchProductFunctionality</span>
@@ -298,7 +245,7 @@
         </div> <!-- panel Default_suite -->
         <div panel-name="test-xml-Default_suite" class="panel">
           <div class="main-panel-header rounded-window-top">
-            <span class="header-content">C:\Users\User\AppData\Local\Temp\testng-eclipse-645725115\testng-customsuite.xml</span>
+            <span class="header-content">C:\Users\User\AppData\Local\Temp\testng-eclipse--121234018\testng-customsuite.xml</span>
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <pre>
@@ -349,50 +296,50 @@ data.addColumn('string', 'Class');
 data.addColumn('number', 'Time (ms)');
 data.addRows(10);
 data.setCell(0, 0, 0)
-data.setCell(0, 1, 'Test006_ChooseRandomProduct')
+data.setCell(0, 1, 'Test003_ChooseProductCate')
 data.setCell(0, 2, 'BootsTesting')
-data.setCell(0, 3, 64664);
+data.setCell(0, 3, 28355);
 data.setCell(1, 0, 1)
 data.setCell(1, 1, 'Test011_CheckSearchProductFunctionality')
 data.setCell(1, 2, 'BootsTesting')
-data.setCell(1, 3, 54008);
+data.setCell(1, 3, 20264);
 data.setCell(2, 0, 2)
-data.setCell(2, 1, 'Test003_ChooseProductCate')
+data.setCell(2, 1, 'Test006_ChooseRandomProduct')
 data.setCell(2, 2, 'BootsTesting')
-data.setCell(2, 3, 24709);
+data.setCell(2, 3, 11888);
 data.setCell(3, 0, 3)
-data.setCell(3, 1, 'Test005_FilterFunctionality')
+data.setCell(3, 1, 'Test002_CheckAiAssistantFunctionality')
 data.setCell(3, 2, 'BootsTesting')
-data.setCell(3, 3, 21349);
+data.setCell(3, 3, 9609);
 data.setCell(4, 0, 4)
-data.setCell(4, 1, 'Test008_AddItemToTheCart')
+data.setCell(4, 1, 'Test005_FilterFunctionality')
 data.setCell(4, 2, 'BootsTesting')
-data.setCell(4, 3, 14733);
+data.setCell(4, 3, 8794);
 data.setCell(5, 0, 5)
-data.setCell(5, 1, 'Test002_CheckAiAssistantFunctionality')
+data.setCell(5, 1, 'Test007_ViewingProductDetailes')
 data.setCell(5, 2, 'BootsTesting')
-data.setCell(5, 3, 8735);
+data.setCell(5, 3, 8605);
 data.setCell(6, 0, 6)
-data.setCell(6, 1, 'Test001_VerifyHomepageLoad')
+data.setCell(6, 1, 'Test008_AddItemToTheCart')
 data.setCell(6, 2, 'BootsTesting')
-data.setCell(6, 3, 7180);
+data.setCell(6, 3, 7960);
 data.setCell(7, 0, 7)
 data.setCell(7, 1, 'Test010_DicsountCode')
 data.setCell(7, 2, 'BootsTesting')
-data.setCell(7, 3, 4245);
+data.setCell(7, 3, 3542);
 data.setCell(8, 0, 8)
-data.setCell(8, 1, 'Test007_ViewingProductDetailes')
+data.setCell(8, 1, 'Test004_VerifiyProductListIsLoaded')
 data.setCell(8, 2, 'BootsTesting')
-data.setCell(8, 3, 2418);
+data.setCell(8, 3, 2096);
 data.setCell(9, 0, 9)
-data.setCell(9, 1, 'Test004_VerifiyProductListIsLoaded')
+data.setCell(9, 1, 'Test001_VerifyHomepageLoad')
 data.setCell(9, 2, 'BootsTesting')
-data.setCell(9, 3, 2157);
+data.setCell(9, 3, 1632);
 window.suiteTableData['Default_suite']= { tableData: data, tableDiv: 'times-div-Default_suite'}
 return data;
 }
               </script>
-              <span class="suite-total-time">Total running time: 3 minutes</span>
+              <span class="suite-total-time">Total running time: 1 minutes</span>
               <div id="times-div-Default_suite">
               </div> <!-- times-div-Default_suite -->
             </div> <!-- times-div -->
@@ -432,45 +379,43 @@ return data;
               </div> <!-- configuration-test before -->
               <div class="test-method">
                 <span class="method-name">Test001_VerifyHomepageLoad</span>
-                <span class="method-start">20250 ms</span>
+                <span class="method-start">8802 ms</span>
               </div> <!-- test-method -->
               <div class="test-method">
                 <span class="method-name">Test002_CheckAiAssistantFunctionality</span>
-                <span class="method-start">27445 ms</span>
+                <span class="method-start">10440 ms</span>
               </div> <!-- test-method -->
               <div class="test-method">
                 <span class="method-name">Test003_ChooseProductCate</span>
-                <span class="method-start">36184 ms</span>
+                <span class="method-start">20051 ms</span>
               </div> <!-- test-method -->
               <div class="test-method">
                 <span class="method-name">Test004_VerifiyProductListIsLoaded</span>
-                <span class="method-start">60895 ms</span>
+                <span class="method-start">48408 ms</span>
               </div> <!-- test-method -->
               <div class="test-method">
                 <span class="method-name">Test005_FilterFunctionality</span>
-                <span class="method-start">63061 ms</span>
+                <span class="method-start">50507 ms</span>
               </div> <!-- test-method -->
               <div class="test-method">
                 <span class="method-name">Test006_ChooseRandomProduct</span>
-                <span class="method-start">84414 ms</span>
+                <span class="method-start">59303 ms</span>
               </div> <!-- test-method -->
               <div class="test-method">
                 <span class="method-name">Test007_ViewingProductDetailes</span>
-                <span class="method-start">149085 ms</span>
+                <span class="method-start">71193 ms</span>
               </div> <!-- test-method -->
               <div class="test-method">
                 <span class="method-name">Test008_AddItemToTheCart</span>
-                <span class="method-start">151510 ms</span>
+                <span class="method-start">79801 ms</span>
               </div> <!-- test-method -->
               <div class="test-method">
-                <img src="failed.png">
-                </img>
                 <span class="method-name">Test010_DicsountCode</span>
-                <span class="method-start">166246 ms</span>
+                <span class="method-start">87765 ms</span>
               </div> <!-- test-method -->
               <div class="test-method">
                 <span class="method-name">Test011_CheckSearchProductFunctionality</span>
-                <span class="method-start">170502 ms</span>
+                <span class="method-start">91309 ms</span>
               </div> <!-- test-method -->
           </div> <!-- main-panel-content rounded-window-bottom -->
         </div> <!-- panel -->

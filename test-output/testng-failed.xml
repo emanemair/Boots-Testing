@@ -5,8 +5,15 @@
     <classes>
       <class name="BootsTesting">
         <methods>
+          <include name="Test006_ChooseRandomProduct"/>
           <include name="MySetup"/>
+          <include name="Test003_ChooseProductCate"/>
+          <include name="Test007_ViewingProductDetailes"/>
+          <include name="Test005_FilterFunctionality"/>
+          <include name="Test008_AddItemToTheCart"/>
           <include name="Test010_DicsountCode"/>
+          <include name="Test004_VerifiyProductListIsLoaded"/>
+          <include name="Test011_CheckSearchProductFunctionality"/>
         </methods>
       </class> <!-- BootsTesting -->
     </classes>

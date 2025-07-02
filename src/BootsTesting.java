@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
+import java.util.concurrent.TimeoutException;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -20,26 +21,16 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class BootsTesting {
+public class BootsTesting extends TestData {
 
-	String DiscountCode = "SAVE20"; 
-	
-	double PPrice ; 
-	WebDriver driver = new ChromeDriver();
-	String URL = "https://www.boots.com/"; 
-	Random rand = new Random(); 
-	String UserPssword = "emanemair@E12345";
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-
-	@BeforeTest 
-	public void MySetup() throws InterruptedException {
-		
+	@BeforeTest
+	public void MySetup() throws InterruptedException {		
 		driver.get(URL);
 		driver.manage().window().maximize();
 		
 		Thread.sleep(2000);
 		driver.findElement(By.id("onetrust-accept-btn-handler")).click(); 
-	}
+	} 
 	
 	@Test(priority = 1 , enabled = true)
 	public void Test001_VerifyHomepageLoad() {
@@ -74,7 +65,6 @@ public class BootsTesting {
 	@Test(priority = 2  , enabled = true)
 	public void Test002_CheckAiAssistantFunctionality() throws InterruptedException {
 		
-		String ChatText = "What is the average delivery time?"; 
 	
 		WebElement AI_AssistantButton = driver.findElement(By.className("ATChatOpen")); 
 		AI_AssistantButton.click(); 
@@ -90,7 +80,6 @@ public class BootsTesting {
 		    )) ; 
 		String AI_Feedback = messageElement.getText(); 
 		boolean ActualResult = AI_Feedback.contains("delivery"); 
-		boolean ExpectedAI_result = true; 
 		driver.findElement(By.className("modalHeaderActionGroup")).findElement(By.tagName("button")).click(); 
 		Assert.assertEquals(ActualResult, ExpectedAI_result);
 		
@@ -98,6 +87,7 @@ public class BootsTesting {
 	
 	@Test(priority= 2 , enabled = false) 
 	public void Test002_Registration() throws InterruptedException {
+		
 		WebElement RegistrationLink = driver.findElement(By.id("signInQuickLink")); 
 		RegistrationLink.click(); 
 		driver.findElement(By.xpath("//input[@value='Register']")).click(); 
@@ -168,13 +158,12 @@ public class BootsTesting {
 			driver.findElement(By.className("dismiss")).click(); 
 			Thread.sleep(1000);
 			driver.findElement(By.className("dismiss")).click(); 
-
-		
-		    List<WebElement> ProductCategories = driver.findElements(By.cssSelector(
-		        ".swiper-slide.oct-carousel-teaser-swiper-slide.swiper-slide-next"
-		    ));
-		    
-		    
+			
+			HandlePopUpsIfPresent(); 
+			 List<WebElement> ProductCategories = driver.findElements(By.cssSelector(
+				        ".swiper-slide.oct-carousel-teaser-swiper-slide.swiper-slide-next"
+				    ));
+				    
 		    int RandomProductIndex = 0 ; 
 //oct-teaser oct-teaser--theme-productTile oct-teaser--theme-productTile--border-callout oct-teaser--border
 		  //  int RandomProductIndex = rand.nextInt(2,ProductCategories.size()); 
@@ -214,7 +203,6 @@ public class BootsTesting {
 		    if (!success) {
 		        throw new RuntimeException("Failed to click product category after multiple attempts due to stale element.");
 		    }
-		    boolean Test003_Expected_Result= true; 
 		    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		    WebElement navItem = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(
 		            By.className("oct-breadcrumb__item"))).get(2);
@@ -230,7 +218,6 @@ public class BootsTesting {
 		Thread.sleep(2000); 
 		
 		String ProductShowenText =driver.findElement(By.cssSelector(".oct-listers__pagination.oct-listers__pagination-top.oct-listers__pagination-top__no-chanel")).getText(); 
-		Boolean Test004_ExpectedResult = true; 
 		Boolean ActualResult = ProductShowenText.contains("Showing");  
 		
 		Assert.assertEquals(ActualResult, Test004_ExpectedResult); 
@@ -278,7 +265,6 @@ public class BootsTesting {
 
 		String InStockFilter = "inStock=true".toLowerCase();
 		String BrandFilter = ("brand="+brandName).toLowerCase(); 
-		boolean Test005_ExpectResult_test = true;
 		Thread.sleep(2000); 
 		String CurrentUrl = driver.getCurrentUrl().toLowerCase();
 		boolean ActualResult_test4 = CurrentUrl.contains(InStockFilter) && CurrentUrl.contains(BrandFilter);
@@ -303,11 +289,10 @@ public class BootsTesting {
 		/*
 		String ProductName = ProductLinks.get(RandomProductIndex).getText();
 		ProductLinks.get(RandomProductIndex).click(); */
-		String ProductName = driver.findElement(By.linkText("Clinique All About Eyes™ Eye Cream 15ml")).getText(); 
-		 driver.findElement(By.linkText("Clinique All About Eyes™ Eye Cream 15ml")).click();
+		String ProductName = driver.findElement(By.linkText(ProductLinkText)).getText(); 
+		 driver.findElement(By.linkText(ProductLinkText)).click();
 		Thread.sleep(1000);	
 		String SelectedPName = driver.findElement(By.id("estore_pdp_trcol")).findElement(By.tagName("h1")).getText();
-		boolean Tets006_ExpectedResultTest= true; 
 		boolean ActualResultTest = ProductName.trim().equalsIgnoreCase(SelectedPName.trim());
 		Assert.assertEquals(ActualResultTest, Tets006_ExpectedResultTest);
 	}
@@ -318,6 +303,7 @@ public class BootsTesting {
 	public void Test007_ViewingProductDetailes() throws InterruptedException {
 
 		Thread.sleep(2000); 
+		HandlePopUpsIfPresent();
 		WebElement ProductDetailes = driver.findElement(By.id("estore_pdp_trcol")); 
         List<Boolean> boolList = new ArrayList<>();
         WebElement ProductName =  ProductDetailes.findElement(By.tagName("h1")); 
@@ -325,7 +311,6 @@ public class BootsTesting {
         WebElement ProductReviews = ProductDetailes.findElement
         		(By.cssSelector(".bv_main_container_row_flex.bv_ratings_summary.bv_main_rating_button")); 
         
-        PPrice = Double.parseDouble(ProductPrice.getText().trim().replaceAll("[^\\d.]", "")); 
         WebElement ProductCode = ProductDetailes.findElement(By.cssSelector(".productid.productid_redesign")); 
         boolList.add(ProductName.isDisplayed()); 
         boolList.add(ProductPrice.isDisplayed()) ; 
@@ -338,8 +323,7 @@ public class BootsTesting {
         	else 
         		DispalyingCount = DispalyingCount + 1 ; 
         }
-        
-       Boolean Test007_ExpectedResult = true; 
+        HandlePopUpsIfPresent();
        Boolean ActualResult = false; 
        if (DispalyingCount == 4) {
     	   ActualResult = true; 
@@ -409,7 +393,6 @@ public class BootsTesting {
 		System.out.println("Product Name to be Added: " + ProductCNameToBeAdded);
 
 		// Validation
-		boolean Test008_ExpectedBasketResult = true;
 		boolean ActualBasketResult = ProductNames.contains(ProductCNameToBeAdded);
 
 		Assert.assertEquals(ActualBasketResult, Test008_ExpectedBasketResult);
@@ -422,13 +405,12 @@ public class BootsTesting {
 		
 		
 		Thread.sleep(2000); 
-		
+		HandlePopUpsIfPresent();
 		driver.findElement(By.cssSelector(".oct-iconButton.oct-basket-header__close-btn")).click();
-		Boolean Test011_ExpectedResul = true; 
-		String ProductName = "eye cream"; 
-		driver.findElement(By.id("AlgoliaSearchInput")).sendKeys(ProductName);
+		driver.findElement(By.id("AlgoliaSearchInput")).sendKeys(SearchProductName);
 		driver.findElement(By.id("algolia-search-button")).click();
 		Thread.sleep(2000);
+		HandlePopUpsIfPresent();
 		Boolean ActualResult = driver.findElement(By.cssSelector(".oct-text.oct-text--standard.oct-text--size_m.oct-aem-text.oct-aem-text--h1--variant-1\r\n"
 				+ "")).getText().contains("results");
 		Assert.assertEquals(ActualResult, Test011_ExpectedResul);
@@ -448,7 +430,6 @@ public class BootsTesting {
 		WebElement alertElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("form p")));
 		String MessageAlert = alertElement.getText();
 		
-		boolean Test010_ExpectedResult = true; 
 		
 		boolean ActualResult =  MessageAlert.contains("successfully applied"); 
 
